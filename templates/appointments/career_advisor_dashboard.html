@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advisor Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #001a33 0%, #003d80 50%, #007bff 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 40px rgba(0, 123, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-left {
+            font-size: 22px;
+            font-weight: 700;
+            color: #bfe3ff;
+        }
+
+        .top-right a {
+            color: #ffdddd;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #bfe3ff;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        h2 {
+            margin-top: 40px;
+            color: #d9ecff;
+            border-left: 5px solid #00aaff;
+            padding-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(0, 123, 255, 0.4);
+            color: #e6f2ff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        tr:hover {
+            background: rgba(0, 170, 255, 0.25);
+        }
+
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: white;
+        }
+
+        .approve-btn {
+            background: #28a745;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+        }
+
+        .approve-btn:hover {
+            background: #218838;
+        }
+
+        .reject-btn:hover {
+            background: #c82333;
+        }
+
+        .comment-box {
+            padding: 6px;
+            border-radius: 6px;
+            border: none;
+            width: 160px;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+        <div class="top-left">
+            {{ user.username }} — Career Advisor ({{ user.profile.stream }})
+        </div>
+        <div class="top-right">
+            <a href="/accounts/logout/">Logout</a>
+        </div>
+    </div>
+
+    <h1>Advisor Dashboard</h1>
+
+    <!-- WAITING APPOINTMENTS -->
+    <h2>Waiting for Approval</h2>
+    {% if waiting %}
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th>Actions</th>
+        </tr>
+        {% for a in waiting %}
+        <tr>
+            <td>{{ a.student.username }}</td>
+            <td>{{ a.slot.date }}</td>
+            <td>{{ a.slot.time }}</td>
+            <td>{{ a.reason }}</td>
+            <td>
+
+                <!-- APPROVE WITH COMMENT -->
+                <form action="{% url 'approve_appointment' a.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="text" name="comments" class="comment-box" placeholder="Add comment...">
+                    <button class="approve-btn" type="submit">Approve</button>
+                </form>
+
+                <!-- REJECT WITH COMMENT -->
+                <form action="{% url 'reject_appointment' a.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="text" name="comments" class="comment-box" placeholder="Add comment...">
+                    <button class="reject-btn" type="submit">Reject</button>
+                </form>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No waiting appointments.</p>
+    {% endif %}
+
+    <!-- APPROVED APPOINTMENTS -->
+    <h2>Approved Appointments</h2>
+    {% if approved %}
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Comments</th>
+        </tr>
+        {% for a in approved %}
+        <tr>
+            <td>{{ a.student.username }}</td>
+            <td>{{ a.slot.date }}</td>
+            <td>{{ a.slot.time }}</td>
+            <td>{{ a.comments }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No approved appointments.</p>
+    {% endif %}
+
+    <!-- REJECTED APPOINTMENTS -->
+    <h2>Rejected Appointments</h2>
+    {% if rejected %}
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Comments</th>
+        </tr>
+        {% for a in rejected %}
+        <tr>
+            <td>{{ a.student.username }}</td>
+            <td>{{ a.slot.date }}</td>
+            <td>{{ a.slot.time }}</td>
+            <td>{{ a.comments }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No rejected appointments.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
