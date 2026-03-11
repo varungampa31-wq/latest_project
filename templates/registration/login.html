@@ -2,104 +2,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+<meta charset="UTF-8">
+<title>NCI Career Advisor Login</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #001a33 0%, #003d80 50%, #007bff 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
+<style>
+body{
+margin:0;
+padding:0;
+font-family:"Segoe UI",Arial,sans-serif;
+background:linear-gradient(135deg,#001a33 0%,#003d80 50%,#007bff 100%);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
 
-        .login-container {
-            background: rgba(255, 255, 255, 0.12);
-            padding: 40px 50px;
-            border-radius: 20px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 40px rgba(0, 123, 255, 0.5);
-            width: 380px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
+.login-container{
+background:rgba(255,255,255,0.12);
+padding:40px 50px;
+border-radius:20px;
+backdrop-filter:blur(12px);
+box-shadow:0 0 40px rgba(0,123,255,0.5);
+width:400px;
+border:1px solid rgba(255,255,255,0.25);
+text-align:center;
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #cfe9ff;
-            font-size: 28px;
-            font-weight: 700;
-        }
+h1{
+margin-bottom:8px;
+color:#cfe9ff;
+font-size:28px;
+font-weight:700;
+}
 
-        label {
-            font-size: 15px;
-            color: #e6f2ff;
-        }
+.description{
+font-size:14px;
+color:#e6f2ff;
+margin-bottom:25px;
+line-height:1.6;
+}
 
-        input {
-            width: 100%;
-            padding: 10px 12px;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            background: rgba(255,255,255,0.95);
-            font-size: 15px;
-            color: #001a33;
-        }
+label{
+font-size:15px;
+color:#e6f2ff;
+display:block;
+text-align:left;
+}
 
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, #007bff, #00aaff);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
-        }
+input{
+width:100%;
+padding:10px 12px;
+margin-top:6px;
+margin-bottom:16px;
+border-radius:10px;
+border:none;
+outline:none;
+background:rgba(255,255,255,0.95);
+font-size:15px;
+color:#001a33;
+}
 
-        .btn-login:hover {
-            background: linear-gradient(90deg, #0066d6, #0088dd);
-            transform: scale(1.04);
-            box-shadow: 0 0 18px rgba(0, 170, 255, 0.7);
-        }
+.btn-login{
+width:100%;
+padding:12px;
+background:linear-gradient(90deg,#007bff,#00aaff);
+color:white;
+border:none;
+border-radius:10px;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 12px rgba(0,170,255,0.5);
+}
 
-        .errorlist {
-            color: #ffb3b3;
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-    </style>
+.btn-login:hover{
+background:linear-gradient(90deg,#0066d6,#0088dd);
+transform:scale(1.04);
+box-shadow:0 0 18px rgba(0,170,255,0.7);
+}
+
+.errorlist{
+color:#ffb3b3;
+list-style:none;
+padding-left:0;
+margin-bottom:10px;
+font-size:14px;
+}
+</style>
 </head>
+
 <body>
 
 <div class="login-container">
-    <h2>Login</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+<h1>Welcome to NCI Career Advisor</h1>
 
-        <label for="id_username">Username</label>
-        {{ form.username }}
+<p class="description">
+The NCI Career Advisor platform helps students connect with professional career advisors,
+book guidance sessions, and receive personalized career advice.  
+Log in to manage your appointments and explore career opportunities.
+</p>
 
-        <label for="id_password">Password</label>
-        {{ form.password }}
+<form method="post">
+{% csrf_token %}
+{{ form.non_field_errors }}
 
-        <button type="submit" class="btn-login">Login</button>
-    </form>
+<label for="id_username">Username</label>
+{{ form.username }}
+
+<label for="id_password">Password</label>
+{{ form.password }}
+
+<button type="submit" class="btn-login">Login</button>
+
+</form>
+
 </div>
 
 </body>
