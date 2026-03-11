@@ -18,7 +18,16 @@ urlpatterns = [
         auth_views.LoginView.as_view(template_name='registration/login.html'),
         name='login'
     ),
-    path('accounts/', include('django.contrib.auth.urls')),
 
+    # ✔ Custom logout (GET allowed)
+    path(
+        'accounts/logout/',
+        auth_views.LogoutView.as_view(next_page='/accounts/login/'),
+        name='logout'
+    ),
+
+    # ✔ Include Django auth URLs, but WITHOUT overriding logout
+    path('accounts/', include('django.contrib.auth.urls')),
+    
     path('redirect/', views.role_redirect, name='role_redirect'),
 ]
